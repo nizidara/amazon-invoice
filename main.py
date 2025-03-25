@@ -59,6 +59,14 @@ try:
                 order_id_element = order.find_element(By.CSS_SELECTOR, '.yohtmlc-order-id span[dir="ltr"]')
                 order_id = order_id_element.text.strip()
 
+                # 注文日を取得
+                try:
+                    order_date_element = order.find_element(By.CSS_SELECTOR, '.a-size-base.a-color-secondary.aok-break-word')
+                    order_date = order_date_element.text.strip()
+                except Exception as e:
+                    print(f"Error finding order date: {e}")
+                    order_date = "unknown_date"
+
                 # 「領収書等」リンクを探してクリック
                 # receipt_link = order.find_element(By.XPATH, '//a[contains(@href, "invoice.html")]')
                 receipt_link = order.find_element(By.LINK_TEXT, '領収書等')
@@ -87,7 +95,7 @@ try:
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'body'))
                 )
-                save_pdf(driver, order_id)
+                save_pdf(driver, order_date, order_id)
 
                 # 新しいタブを閉じて元のタブに戻る
                 driver.close()

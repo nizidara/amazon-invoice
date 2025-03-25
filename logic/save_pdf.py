@@ -4,10 +4,10 @@ import os
 from properties import invoice_dir
 
 # pdfの保存
-def save_pdf(driver, order_id):
+def save_pdf(driver, order_date, order_id):
     try:
         # PDFとして保存
-        pdf_path = os.path.join(invoice_dir, f'invoice_{order_id}.pdf')
+        pdf_path = os.path.join(invoice_dir, f'{order_date}_{order_id}.pdf')
 
         pdf = driver.execute_cdp_cmd('Page.printToPDF', {
             'printBackground': True,
