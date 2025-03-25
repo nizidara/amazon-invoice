@@ -1,0 +1,5 @@
+venv/
+chromedriver-win64/
+.env
+__pycache__/
+cookies.pkl
