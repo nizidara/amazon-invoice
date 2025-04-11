@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pickle
+import platform
 
 from properties import driver_path, invoice_dir, amazon_address, order_history_link
 from logic.save_pdf import save_pdf
@@ -81,7 +82,12 @@ try:
                     )
                     # invoice_link = driver.find_element(By.XPATH, '//div[@class="a-popover-inner"]//a[contains(@href, "print.html")]')
                     invoice_link = driver.find_element(By.LINK_TEXT, '領収書／購入明細書')
-                    invoice_link.send_keys(Keys.CONTROL + Keys.RETURN)
+                    if platform.system() == 'Darwin':
+                        # macOSの場合、Commandキーを使用して新しいタブを開く
+                        invoice_link.send_keys(Keys.COMMAND + Keys.RETURN)
+                    else:
+                        # Windows/Linuxの場合、Controlキーを使用して新しいタブを開く
+                        invoice_link.send_keys(Keys.CONTROL + Keys.RETURN)
 
                     # 新しいタブに切り替え
                     driver.switch_to.window(driver.window_handles[-1])
